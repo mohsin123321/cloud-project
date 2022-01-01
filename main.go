@@ -13,10 +13,14 @@ import (
 
 func main() {
 	log.Println("Starting the server")
-	ds := dataservice.Dataservice{}
+
+	// Initialize the dataservice
+	ds := dataservice.SetupDGS()
+	// release the resoures by closing connection
+	defer ds.Db.Close()
 
 	ctrl := controller.HttpController{
-		DS: &ds,
+		DS: ds,
 	}
 	r := mux.NewRouter()
 	router.SetupRoutes(r, &ctrl)
