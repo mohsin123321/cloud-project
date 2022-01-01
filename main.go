@@ -5,6 +5,7 @@ import (
 	"net/http"
 
 	"github.com/gorilla/mux"
+	"github.com/mohsin123321/cloud-project/config"
 	"github.com/mohsin123321/cloud-project/controller"
 	"github.com/mohsin123321/cloud-project/dataservice"
 	"github.com/mohsin123321/cloud-project/router"
@@ -13,6 +14,9 @@ import (
 
 func main() {
 	log.Println("Starting the server")
+
+	// read config.json
+	config.ReadConfig()
 
 	// Initialize the dataservice
 	ds := dataservice.SetupDGS()
@@ -25,8 +29,7 @@ func main() {
 	r := mux.NewRouter()
 	router.SetupRoutes(r, &ctrl)
 
-	port := "8080"
-	err := http.ListenAndServe(":"+port, cors.AllowAll().Handler(r))
+	err := http.ListenAndServe(":"+config.Config.Server.Port, cors.AllowAll().Handler(r))
 	if err != nil {
 		log.Println(err)
 	}

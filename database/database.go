@@ -6,6 +6,7 @@ import (
 	"log"
 	"time"
 
+	"github.com/mohsin123321/cloud-project/config"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 	"go.mongodb.org/mongo-driver/mongo/readpref"
@@ -29,13 +30,14 @@ func SetupDB() *Database {
 	var err error
 
 	credential := options.Credential{
-		Username: "root",
-		Password: "root",
+		Username: config.Config.Database.DbUser,
+		Password: config.Config.Database.DbPass,
 	}
 
 	db.DBContext, db.DBContextClose = context.WithTimeout(context.Background(), 8*time.Second)
 
-	clientOpts := options.Client().ApplyURI("mongodb://localhost:27017").SetAuth(credential)
+	connString := fmt.Sprintf("%s://%s:%s", config.Config.Database.DbType, config.Config.Database.DbAddr, config.Config.Database.DbPort)
+	clientOpts := options.Client().ApplyURI(connString).SetAuth(credential)
 	db.DB, err = mongo.Connect(db.DBContext, clientOpts)
 	if err != nil {
 		log.Fatal(err)

@@ -1,0 +1,12 @@
+{
+    "Database":{
+        "DbType": "mongodb",
+        "DbAddr": "localhost",
+        "DbPort": "27017",
+        "DbUser": "root",
+        "DbPass": "root"
+    },
+    "Server":{
+        "Port": "8080"
+    }
+}
