@@ -25,6 +25,8 @@ type DBconfig struct {
 	DbUser string
 	// Password of the database to use
 	DbPass string
+	// Name of the database to use
+	DbName string
 }
 
 type ServerConfig struct {

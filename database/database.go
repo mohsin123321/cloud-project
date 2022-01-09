@@ -29,15 +29,18 @@ func SetupDB() *Database {
 	var db Database
 	var err error
 
-	credential := options.Credential{
-		Username: config.Config.Database.DbUser,
-		Password: config.Config.Database.DbPass,
-	}
-
 	db.DBContext, db.DBContextClose = context.WithTimeout(context.Background(), 8*time.Second)
 
-	connString := fmt.Sprintf("%s://%s:%s", config.Config.Database.DbType, config.Config.Database.DbAddr, config.Config.Database.DbPort)
-	clientOpts := options.Client().ApplyURI(connString).SetAuth(credential)
+	connString := fmt.Sprintf(
+		"%s://%s:%s@%s:%s/%s?maxPoolSize=20&w=majority",
+		config.Config.Database.DbType,
+		config.Config.Database.DbUser,
+		config.Config.Database.DbPass,
+		config.Config.Database.DbAddr,
+		config.Config.Database.DbPort,
+		config.Config.Database.DbName,
+	)
+	clientOpts := options.Client().ApplyURI(connString)
 	db.DB, err = mongo.Connect(db.DBContext, clientOpts)
 	if err != nil {
 		log.Fatal("Error in db connection :", err)
