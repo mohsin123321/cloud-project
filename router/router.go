@@ -19,5 +19,5 @@ func SetupRoutes(router *mux.Router, ctrl controller.ControllerInterface) {
 		w.Write([]byte("Pong"))
 	})
 
-	router.HandleFunc("/device", ctrl.CreateTemperature).Methods("POST")
+	router.HandleFunc("/device", ctrl.InsertData).Methods("POST")
 }

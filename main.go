@@ -9,6 +9,7 @@ import (
 	"github.com/mohsin123321/cloud-project/controller"
 	"github.com/mohsin123321/cloud-project/dataservice"
 	"github.com/mohsin123321/cloud-project/router"
+	"github.com/mohsin123321/cloud-project/utility"
 	"github.com/rs/cors"
 )
 
@@ -23,8 +24,10 @@ func main() {
 	// release the resoures by closing connection
 	defer ds.Db.Close()
 
+	utility := utility.Utility{}
 	ctrl := controller.HttpController{
 		DS: ds,
+		Ut: &utility,
 	}
 	r := mux.NewRouter()
 	router.SetupRoutes(r, &ctrl)

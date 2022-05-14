@@ -4,12 +4,14 @@ import (
 	"net/http"
 
 	"github.com/mohsin123321/cloud-project/dataservice"
+	"github.com/mohsin123321/cloud-project/utility"
 )
 
 type ControllerInterface interface {
-	CreateTemperature(w http.ResponseWriter, r *http.Request)
+	InsertData(w http.ResponseWriter, r *http.Request)
 }
 
 type HttpController struct {
 	DS dataservice.DataserviceInterface
+	Ut utility.UtilityInterface
 }

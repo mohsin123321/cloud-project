@@ -7,6 +7,7 @@ import (
 	"time"
 
 	"github.com/mohsin123321/cloud-project/config"
+	"github.com/mohsin123321/cloud-project/model"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 	"go.mongodb.org/mongo-driver/mongo/readpref"
@@ -15,6 +16,7 @@ import (
 // Database interface
 type DatabaseInterface interface {
 	Close()
+	InsertData(model.Data)
 }
 
 // Database struct

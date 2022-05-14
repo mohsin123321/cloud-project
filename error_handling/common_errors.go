@@ -8,3 +8,6 @@ import "net/http"
 
 // ErrServerError is raised when server breaks for internal reasons
 var ErrServerError = &CustomError{message: "ERR_INTERNAL_SERVER_ERROR", status: http.StatusInternalServerError}
+
+// ErrBadSyntax is raised when user provides a form or body with missing or invalid fields.
+var ErrBadSyntax = &CustomError{message: "ERR_BAD_SYNTAX", status: http.StatusBadRequest}

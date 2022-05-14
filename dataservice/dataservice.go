@@ -1,10 +1,13 @@
 package dataservice
 
-import "github.com/mohsin123321/cloud-project/database"
+import (
+	"github.com/mohsin123321/cloud-project/database"
+	"github.com/mohsin123321/cloud-project/model"
+)
 
 // package that contains all the business logic
-
 type DataserviceInterface interface {
+	InsertData(model.Data)
 }
 
 type Dataservice struct {
