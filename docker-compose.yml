@@ -6,6 +6,8 @@ services:
     build: .
     ports:
       - "8080:8080"
+    networks:
+      - mongo-go
   mongodb:
     image: mongo:latest
     volumes:
@@ -16,3 +18,7 @@ services:
     ports:
     - 27017:27017
     restart: unless-stopped
+    networks:
+      - mongo-go
+networks:
+  mongo-go:

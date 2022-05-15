@@ -3,9 +3,8 @@
         "DbType": "mongodb",
         "DbAddr": "mongodb",
         "DbPort": "27017",
-        "DbUser": "mohsin",
-        "DbPass": "123456",
-        "DbName": "iot_db"
+        "DbUser": "root",
+        "DbPass": "root"
     },
     "Server":{
         "Port": "8080"

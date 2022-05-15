@@ -34,13 +34,12 @@ func SetupDB() *Database {
 	db.DBContext, db.DBContextClose = context.WithTimeout(context.Background(), 8*time.Second)
 
 	connString := fmt.Sprintf(
-		"%s://%s:%s@%s:%s/%s?maxPoolSize=20&w=majority",
+		"%s://%s:%s@%s:%s/?maxPoolSize=20&w=majority",
 		config.Config.Database.DbType,
 		config.Config.Database.DbUser,
 		config.Config.Database.DbPass,
 		config.Config.Database.DbAddr,
 		config.Config.Database.DbPort,
-		config.Config.Database.DbName,
 	)
 	clientOpts := options.Client().ApplyURI(connString)
 	db.DB, err = mongo.Connect(db.DBContext, clientOpts)
