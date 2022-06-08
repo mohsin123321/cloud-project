@@ -1,5 +1,7 @@
 version: 0.2
 phases:
+  pre_build:
+    - pip install docker-compose
   build:
     commands:
       - docker-compose -f docker-compose.yml up --build
