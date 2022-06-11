@@ -6,4 +6,8 @@ phases:
       - timeout 15 sh -c "until docker info; do echo .; sleep 1; done"
   build:
     commands:
-      - docker-compose build
+      - docker-compose build 
+  artifacts:
+    files:
+      - go-app-code/**/*
+    discard-paths: yes
