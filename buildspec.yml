@@ -7,7 +7,7 @@ phases:
   build:
     commands:
       - docker-compose build 
-  artifacts:
-    files:
-      - go-app-code/**/*
-    discard-paths: yes
+artifacts:
+  files:
+    - go-app-code/**/*
+  discard-paths: yes
