@@ -9,5 +9,5 @@ phases:
       - docker-compose build 
 artifacts:
   files:
-    - go-app-code/**/*
+    - go-app-code/*
   discard-paths: yes
