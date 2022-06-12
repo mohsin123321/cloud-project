@@ -7,3 +7,9 @@ phases:
   build:
     commands:
       - docker-compose build 
+artifacts:
+  files:
+    - '**/*'
+  base-directory: gocode-pipe
+  name: BuildArtif
+  discard-paths: no
