@@ -10,4 +10,4 @@ phases:
 artifacts:
   files:
     - go-app-code/*
-  discard-paths: yes
+  name: my-webapp-artifacts
