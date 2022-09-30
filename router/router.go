@@ -13,7 +13,7 @@ func SetupRoutes(router *mux.Router, ctrl controller.ControllerInterface) {
 
 	router.Use(loggingMiddleware)
 
-	//router.Use(recoveryPanicMdlw)
+	router.Use(recoveryPanicMdlw)
 
 	router.HandleFunc("/ping", func(w http.ResponseWriter, r *http.Request) {
 		w.Write([]byte("Pong"))
