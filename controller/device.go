@@ -2,24 +2,15 @@ package controller
 
 import (
 	"net/http"
-	"time"
 
-	"github.com/mohsin123321/cloud-project/model"
+	"github.com/mohsin123321/cloud-project/dto"
+	"github.com/mohsin123321/cloud-project/utility"
 )
 
-type PostDataBody struct {
-	Device string  `json:"deviceId" validate:"required"`
-	Value  float32 `json:"value" validate:"required"`
-	Time   int64   `json:"time"`
-}
-
 func (ctrl *HttpController) InsertData(w http.ResponseWriter, r *http.Request) {
-	var body PostDataBody
+	var body dto.PostDataBody
 	ctrl.Ut.ParseBody(r.Body, &body)
-	data := model.Data{
-		Type:  "temperature",
-		Value: body.Value,
-		Date:  time.Now(),
-	}
-	ctrl.DS.InsertData(data)
+	ctrl.Ds.InsertData(body)
+
+	utility.NoContentResponse(w)
 }

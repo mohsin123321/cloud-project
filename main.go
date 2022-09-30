@@ -26,7 +26,7 @@ func main() {
 
 	utility := utility.Utility{}
 	ctrl := controller.HttpController{
-		DS: ds,
+		Ds: ds,
 		Ut: &utility,
 	}
 	r := mux.NewRouter()

@@ -12,6 +12,6 @@ type ControllerInterface interface {
 }
 
 type HttpController struct {
-	DS dataservice.DataserviceInterface
+	Ds dataservice.DataserviceInterface
 	Ut utility.UtilityInterface
 }
