@@ -4,6 +4,7 @@ go 1.17
 
 require (
 	github.com/go-playground/validator v9.31.0+incompatible
+	github.com/gofrs/uuid v4.3.0+incompatible
 	github.com/golang/mock v1.6.0
 	github.com/gorilla/handlers v1.5.1
 	github.com/gorilla/mux v1.8.0
@@ -17,7 +18,6 @@ require (
 	github.com/go-playground/locales v0.12.1 // indirect
 	github.com/go-playground/universal-translator v0.16.0 // indirect
 	github.com/go-stack/stack v1.8.0 // indirect
-	github.com/gofrs/uuid v4.3.0+incompatible // indirect
 	github.com/golang/snappy v0.0.1 // indirect
 	github.com/klauspost/compress v1.13.6 // indirect
 	github.com/leodido/go-urn v1.1.0 // indirect
