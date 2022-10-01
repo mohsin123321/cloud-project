@@ -4,7 +4,6 @@ import (
 	"context"
 	"fmt"
 	"log"
-	"time"
 
 	"github.com/mohsin123321/cloud-project/config"
 	"github.com/mohsin123321/cloud-project/model"
@@ -21,17 +20,13 @@ type DatabaseInterface interface {
 
 // Database struct
 type Database struct {
-	DB             *mongo.Client
-	DBContextClose context.CancelFunc
-	DBContext      context.Context
+	DB *mongo.Client
 }
 
 // SetupDB initializes the db and returns it
 func SetupDB() *Database {
 	var db Database
 	var err error
-
-	db.DBContext, db.DBContextClose = context.WithTimeout(context.Background(), 8*time.Second)
 
 	connString := fmt.Sprintf(
 		"%s://%s:%s@%s:%s/?maxPoolSize=20&w=majority",
@@ -42,13 +37,13 @@ func SetupDB() *Database {
 		config.Config.Database.DbPort,
 	)
 	clientOpts := options.Client().ApplyURI(connString)
-	db.DB, err = mongo.Connect(db.DBContext, clientOpts)
+	db.DB, err = mongo.Connect(context.TODO(), clientOpts)
 	if err != nil {
 		log.Fatal("Error in db connection :", err)
 	}
 
 	// check connection
-	if err := db.DB.Ping(db.DBContext, readpref.Primary()); err != nil {
+	if err := db.DB.Ping(context.TODO(), readpref.Primary()); err != nil {
 		log.Println(" Cannot connect to the db")
 		log.Fatal(err)
 	}
@@ -59,17 +54,9 @@ func SetupDB() *Database {
 
 // Close is used to close mongoDB client and cancel context
 func (db *Database) Close() {
-	// CancelFunc to cancel to context
-	defer db.DBContextClose()
-
-	// client provides a method to close
-	// a mongoDB connection.
-	defer func() {
-
-		// Disconnect method also has deadline.
-		// returns error if any,
-		if err := db.DB.Disconnect(db.DBContext); err != nil {
-			panic(err)
-		}
-	}()
+	// Disconnect method also has deadline.
+	// returns error if any,
+	if err := db.DB.Disconnect(context.TODO()); err != nil {
+		panic(err)
+	}
 }
