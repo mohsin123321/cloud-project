@@ -3,7 +3,6 @@ package utility
 import (
 	"encoding/json"
 	"io"
-	"log"
 	"net/http"
 
 	"github.com/go-playground/validator"
@@ -33,7 +32,6 @@ func (ut *Utility) ParseBody(body io.ReadCloser, dest interface{}) {
 	v := validator.New()
 	err = v.Struct(dest)
 	if err != nil {
-		log.Println(err)
 		e.ThrowError(e.ErrBadSyntax)
 	}
 }
