@@ -16,7 +16,7 @@ func SetupRoutes(router *mux.Router, ctrl controller.ControllerInterface) {
 	router.Use(recoveryPanicMdlw)
 
 	router.HandleFunc("/ping", func(w http.ResponseWriter, r *http.Request) {
-		w.Write([]byte("Pong"))
+		_, _ = w.Write([]byte("Pong"))
 	})
 
 	router.HandleFunc("/device", ctrl.InsertData).Methods("POST")
