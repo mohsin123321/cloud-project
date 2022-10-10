@@ -3,3 +3,7 @@
 
 # build files
 main
+# swagger
+docs/swagger/docs.go
+swagger.json
+swagger.yaml
