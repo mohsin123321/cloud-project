@@ -11,3 +11,9 @@ var ErrServerError = &CustomError{message: "ERR_INTERNAL_SERVER_ERROR", status: 
 
 // ErrBadSyntax is raised when user provides a form or body with missing or invalid fields.
 var ErrBadSyntax = &CustomError{message: "ERR_BAD_SYNTAX", status: http.StatusBadRequest}
+
+// ErrInvalidToken is raised when the token contained in the request is not valid.
+var ErrInvalidToken = &CustomError{message: "ERR_INVALID_TOKEN", status: http.StatusUnauthorized}
+
+// ErrMissingToken is raised when request does not contain a jwt for an API which requires authentication.
+var ErrMissingToken = &CustomError{message: "ERR_MISSING_TOKEN", status: http.StatusUnauthorized}
