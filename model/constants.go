@@ -4,3 +4,5 @@ package model
 const (
 	MimeTypeJSON = "application/json"
 )
+
+const TokenHeader string = "X-Auth-Token"

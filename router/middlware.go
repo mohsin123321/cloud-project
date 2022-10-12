@@ -6,8 +6,11 @@ import (
 	"os"
 	"runtime"
 
+	"github.com/golang-jwt/jwt"
 	"github.com/gorilla/handlers"
+	"github.com/mohsin123321/cloud-project/config"
 	"github.com/mohsin123321/cloud-project/error_handling"
+	"github.com/mohsin123321/cloud-project/model"
 )
 
 // log into the terminal all the informations about a call to an api
@@ -31,6 +34,26 @@ func recoveryPanicMdlw(h http.Handler) http.Handler {
 			}
 		}()
 
+		h.ServeHTTP(w, r)
+	})
+}
+
+func checkAuthMdlw(h http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		var err error
+		var tokenStr string
+
+		if tokenStr = r.Header.Get(model.TokenHeader); tokenStr == "" {
+			error_handling.ThrowError(error_handling.ErrMissingToken)
+		}
+
+		if _, err = jwt.Parse(tokenStr, func(token *jwt.Token) (interface{}, error) {
+			return []byte(config.Config.Token.Secret), nil
+		}); err != nil {
+			error_handling.ThrowError(error_handling.ErrInvalidToken)
+		}
+
+		// Serve the request
 		h.ServeHTTP(w, r)
 	})
 }

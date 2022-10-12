@@ -12,6 +12,8 @@ type Configuration struct {
 	Database DBconfig
 	// Server port of the server
 	Server ServerConfig
+	// Token contains some configuration parameters for issued JWTs.
+	Token TokenConfig
 }
 
 type DBconfig struct {
@@ -27,6 +29,11 @@ type DBconfig struct {
 	DbPass string
 	// Name of the database to use
 	DbName string
+}
+
+// TokenConfig contains token information
+type TokenConfig struct {
+	Secret string
 }
 
 type ServerConfig struct {
