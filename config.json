@@ -1,4 +1,5 @@
 {
+    "ShowDocs": true,
     "Database":{
         "DbType": "mongodb",
         "DbAddr": "mongodb",

@@ -8,11 +8,19 @@ import (
 	"github.com/mohsin123321/cloud-project/config"
 	"github.com/mohsin123321/cloud-project/controller"
 	"github.com/mohsin123321/cloud-project/dataservice"
+	_ "github.com/mohsin123321/cloud-project/docs"
 	"github.com/mohsin123321/cloud-project/router"
 	"github.com/mohsin123321/cloud-project/utility"
 	"github.com/rs/cors"
+	httpSwagger "github.com/swaggo/http-swagger"
 )
 
+// @title IOT Device API
+// @version 1.0.0
+// @description API To insert IOT data
+// @securityDefinitions.apikey ApiKeyAuth
+// @in header
+// @name X-Auth-Token
 func main() {
 	log.Println("Starting the server")
 
@@ -32,6 +40,10 @@ func main() {
 	r := mux.NewRouter()
 
 	router.SetupRoutes(r, &ctrl)
+
+	if config.Config.ShowDocs {
+		r.PathPrefix("/docs/").Handler(httpSwagger.WrapHandler)
+	}
 
 	// Since we don't have to start server with TLS so we ignore this rule
 	// nosemgrep

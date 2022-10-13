@@ -14,6 +14,8 @@ type Configuration struct {
 	Server ServerConfig
 	// Token contains some configuration parameters for issued JWTs.
 	Token TokenConfig
+	// ShowDocs use to enable the documentation of the api
+	ShowDocs bool
 }
 
 type DBconfig struct {
