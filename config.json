@@ -1,13 +1,17 @@
 {
     "ShowDocs": true,
-    "Database":{
+    "Database": {
         "DbType": "mongodb",
-        "DbAddr": "mongodb",
+        "DbAddr": "localhost",
         "DbPort": "27017",
         "DbUser": "root",
         "DbPass": "root"
     },
-    "Server":{
+    "Server": {
         "Port": "8080"
+    },
+
+    "Token": {
+        "Secret": "4b65792d4d7573742d42652d61742d6c656173742d33322d62797465732d696e2d6c656e67746821"
     }
 }
