@@ -1,0 +1,89 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "API To insert IOT data",
+        "title": "IOT Device API",
+        "contact": {},
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/api/device": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "tags": [
+                    "device"
+                ],
+                "summary": "create sensors data.",
+                "operationId": "InsertData",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "jwt token",
+                        "name": "X-Auth-Token",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "description": "contains the information related to device",
+                        "name": "Body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.PostDataBody"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No Content"
+                    },
+                    "400": {
+                        "description": "ERR_BAD_SYNTAX"
+                    },
+                    "500": {
+                        "description": "ERR_INTERNAL_SERVER_ERROR"
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "dto.PostDataBody": {
+            "type": "object",
+            "required": [
+                "deviceId",
+                "time",
+                "type",
+                "value"
+            ],
+            "properties": {
+                "deviceId": {
+                    "type": "string",
+                    "example": "cbffd6a4-c0be-4dd0-b8f4-ebd53433e7cd"
+                },
+                "time": {
+                    "type": "integer",
+                    "example": 1641567600
+                },
+                "type": {
+                    "type": "string",
+                    "maxLength": 20,
+                    "example": "temperature"
+                },
+                "value": {
+                    "type": "number",
+                    "example": 25.6
+                }
+            }
+        }
+    },
+    "securityDefinitions": {
+        "ApiKeyAuth": {
+            "type": "apiKey",
+            "name": "X-Auth-Token",
+            "in": "header"
+        }
+    }
+}

@@ -16,7 +16,7 @@ services:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: root
     ports:
-    - 27017:27017
+    - "27018:27017"
     restart: unless-stopped
     networks:
       - mongo-go

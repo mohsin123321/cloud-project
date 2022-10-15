@@ -45,6 +45,9 @@ func main() {
 		r.PathPrefix("/docs/").Handler(httpSwagger.WrapHandler)
 	}
 
+	// start server
+	log.Println("server is listening on port:", config.Config.Server.Port)
+
 	// Since we don't have to start server with TLS so we ignore this rule
 	// nosemgrep
 	err := http.ListenAndServe(":"+config.Config.Server.Port, cors.AllowAll().Handler(r))
@@ -52,7 +55,4 @@ func main() {
 	if err != nil {
 		log.Println(err)
 	}
-
-	// start server
-	log.Println("server is listening on port:", config.Config.Server.Port)
 }
