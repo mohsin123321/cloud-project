@@ -37,11 +37,13 @@ func setup(t *testing.T) (dataservice.Dataservice, DataserviceMockedComp) {
 // and id is properly initialized
 func MatchDataBody(data model.Data) bool {
 	expected := model.Data{
-		ID:       data.ID,
-		DeviceID: mock_data.DataBody.DeviceID,
-		Value:    mock_data.DataBody.Value,
-		Type:     mock_data.DataBody.Type,
-		Date:     mock_data.DataBody.Time,
+		ID:        data.ID,
+		DeviceID:  mock_data.DataBody.DeviceID,
+		Value:     mock_data.DataBody.Value,
+		Type:      mock_data.DataBody.Type,
+		Date:      mock_data.DataBody.Time,
+		Latitude:  mock_data.DataBody.Latitude,
+		Longitude: mock_data.DataBody.Longitude,
 	}
 	return reflect.DeepEqual(expected, data) && !data.ID.IsZero()
 }

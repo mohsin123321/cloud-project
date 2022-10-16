@@ -7,8 +7,10 @@ import (
 )
 
 var DataBody = dto.PostDataBody{
-	DeviceID: ID(),
-	Type:     "temperature",
-	Value:    49.3,
-	Time:     time.Now().Unix(),
+	DeviceID:  ID(),
+	Type:      "temperature",
+	Value:     49.3,
+	Time:      time.Now().Unix(),
+	Latitude:  45.464203,
+	Longitude: 9.189982,
 }
