@@ -3,3 +3,6 @@
 
 # build files
 goapp
+
+# config file
+config.json
