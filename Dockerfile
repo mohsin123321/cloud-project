@@ -1,9 +1,11 @@
-FROM golang:1.19-alpine
+FROM alpine:3.17
 
 WORKDIR /app
 
-COPY . ./
+# Copy the app binary
+COPY goapp .
 
-RUN go build -o /goapp
+# Copy the app configuration
+COPY config.json .
 
-CMD ["/goapp"]
+ENTRYPOINT ["/app/goapp"]
