@@ -36,6 +36,7 @@ func SetupDB() *Database {
 		config.Config.Database.DbAddr,
 		config.Config.Database.DbPort,
 	)
+	log.Println(connString)
 	clientOpts := options.Client().ApplyURI(connString)
 	db.DB, err = mongo.Connect(context.TODO(), clientOpts)
 	if err != nil {
