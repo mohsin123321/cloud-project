@@ -18,7 +18,7 @@ type Dataservice struct {
 func SetupDGS() *Dataservice {
 	var dgs Dataservice
 
-	//dgs.Db = database.SetupDB()
+	dgs.Db = database.SetupDB()
 
 	return &dgs
 }
