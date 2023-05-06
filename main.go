@@ -22,7 +22,7 @@ import (
 // @in header
 // @name X-Auth-Token
 func main() {
-	log.Println("Starting the server")
+	log.Println("Starting the server by user")
 
 	// read config.json
 	config.ReadConfig()
