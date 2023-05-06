@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"log"
+	"net/url"
 
 	"github.com/mohsin123321/cloud-project/config"
 	"github.com/mohsin123321/cloud-project/model"
@@ -32,7 +33,7 @@ func SetupDB() *Database {
 		"%s://%s:%s@%s:%s/?maxPoolSize=20&w=majority",
 		config.Config.Database.DbType,
 		config.Config.Database.DbUser,
-		config.Config.Database.DbPass,
+		url.QueryEscape(config.Config.Database.DbPass),
 		config.Config.Database.DbAddr,
 		config.Config.Database.DbPort,
 	)
