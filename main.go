@@ -29,7 +29,7 @@ func main() {
 	// Initialize the dataservice
 	ds := dataservice.SetupDGS()
 	// release the resoures by closing connection
-	defer ds.Db.Close()
+	//defer ds.Db.Close()
 
 	utility := utility.Utility{}
 	ctrl := controller.HttpController{
