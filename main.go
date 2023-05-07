@@ -26,7 +26,6 @@ func main() {
 
 	// read config.json
 	config.ReadConfig()
-	log.Println(config.Config.Token.Secret)
 	// Initialize the dataservice
 	ds := dataservice.SetupDGS()
 	// release the resoures by closing connection
