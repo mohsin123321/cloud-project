@@ -4,6 +4,7 @@ jq -n \
     --arg dbport "$DB_PORT" \
     --arg dbuser "$DB_USER" \
     --arg dbpass "$DB_PASS" \
+    --arg dbname "$DB_NAME" \
     --arg serverport "$SERVER_PORT" \
     --arg tokensecret "$TOKEN_SECRET" \
     '{
@@ -13,10 +14,11 @@ jq -n \
             "DbAddr": $dbaddress,
             "DbPort": $dbport,
             "DbUser": $dbuser,
-            "DbPass": $dbpass
+            "DbPass": $dbpass,
+            "DbName": $dbname
         },
         "Server": {
-            "Port": "8080"
+            "Port": $serverport
         },
         "Token": {
             "Secret": $tokensecret

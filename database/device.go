@@ -8,7 +8,7 @@ import (
 )
 
 func (db *Database) InsertData(data model.Data) {
-	_, error := db.DB.Database("iot").Collection("iot_data").InsertOne(
+	_, error := db.DB.Collection("iot_data").InsertOne(
 		context.TODO(),
 		data,
 	)
