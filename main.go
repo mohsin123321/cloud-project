@@ -3,6 +3,7 @@ package main
 import (
 	"log"
 	"net/http"
+	"reflect"
 
 	"github.com/gorilla/mux"
 	"github.com/mohsin123321/cloud-project/config"
@@ -28,8 +29,11 @@ func main() {
 	config.ReadConfig()
 	// Initialize the dataservice
 	ds := dataservice.SetupDGS()
+
 	// release the resoures by closing connection
-	//defer ds.Db.Close()
+	if !reflect.ValueOf(ds.Db).IsZero() {
+		ds.Db.Close()
+	}
 
 	utility := utility.Utility{}
 	ctrl := controller.HttpController{

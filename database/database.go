@@ -41,13 +41,14 @@ func SetupDB() *Database {
 	clientOpts := options.Client().ApplyURI(connString)
 	client, err := mongo.Connect(context.TODO(), clientOpts)
 	if err != nil {
-		log.Fatal("Error in db connection :", err)
+		log.Println("Error in db connection")
+		return nil
 	}
 
 	// check connection
 	if err := client.Ping(context.TODO(), readpref.Primary()); err != nil {
-		log.Println(" Cannot connect to the db")
-		log.Fatal(err)
+		log.Println("Cannot connect to the db")
+		return nil
 	}
 
 	fmt.Println("connected to the db successfully")
