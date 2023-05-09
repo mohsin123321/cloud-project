@@ -11,7 +11,6 @@ import (
 	_ "github.com/mohsin123321/cloud-project/docs"
 	"github.com/mohsin123321/cloud-project/router"
 	"github.com/mohsin123321/cloud-project/utility"
-	"github.com/rs/cors"
 )
 
 // @title IOT Device API
@@ -40,14 +39,14 @@ func main() {
 	// Initialize the router
 	r := chi.NewRouter()
 
-	r.Mount("/api", router.SetupRoutes(r, &ctrl))
+	r.Mount("/api", router.SetupRoutes(&ctrl))
 
 	// start server
 	log.Println("server is listening on port:", config.Config.Server.Port)
 
 	// Since we don't have to start server with TLS so we ignore this rule
 	// nosemgrep
-	err := http.ListenAndServe(":"+config.Config.Server.Port, cors.AllowAll().Handler(r))
+	err := http.ListenAndServe(":"+config.Config.Server.Port, r)
 
 	if err != nil {
 		log.Println(err)

@@ -13,6 +13,7 @@ help:
 	$(printf) "prepare_test" "prepare unit tests folder"
 	$(printf) "test" "prepare tests and run unit tests"
 	$(printf) "docker_compose" "used to build and run docker containers containing go app and mongodb container"
+	$(printf) "conf" "used to generate the configuration file"
 
 	@echo -e "\n'run' will be executed by default if you do not specify a command."
 	
@@ -35,7 +36,10 @@ docker_compose:
 	docker-compose up
 
 prepare_test: 
-		go generate test.go
+	go generate test.go
 
 test: prepare_test
 	go test ./tests/unit/...
+
+conf: 
+	./generate_conf.sh

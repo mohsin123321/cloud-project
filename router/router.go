@@ -4,26 +4,29 @@ import (
 	"net/http"
 
 	"github.com/go-chi/chi"
-	"github.com/go-chi/chi/middleware"
+	"github.com/go-chi/chi/v5/middleware"
 	"github.com/mohsin123321/cloud-project/config"
 	"github.com/mohsin123321/cloud-project/controller"
 	httpSwagger "github.com/swaggo/http-swagger"
 )
 
 // routes the request to the right controller
-func SetupRoutes(router *chi.Mux, ctrl controller.ControllerInterface) chi.Router {
-	router.Use(middleware.Logger, recoveryPanicMdlw)
+func SetupRoutes(ctrl controller.ControllerInterface) *chi.Mux {
+	r := chi.NewRouter()
 
-	setupPublicRouter(router, ctrl)
-	setupPrivateRouter(router, ctrl)
+	// added common middlewares
+	r.Use(corsMiddleware, middleware.NoCache, iPPathLimitMiddleware, middleware.Logger, recoveryPanicMdlw)
 
-	return router
+	setupPublicRouter(r, ctrl)
+	setupPrivateRouter(r, ctrl)
+
+	return r
 }
 
 // setup all private routes that needs authentication
 func setupPublicRouter(router *chi.Mux, ctrl controller.ControllerInterface) {
 	// ping endpoint
-	router.HandleFunc("/ping", func(w http.ResponseWriter, r *http.Request) {
+	router.Get("/ping", func(w http.ResponseWriter, r *http.Request) {
 		_, _ = w.Write([]byte("Pong"))
 	})
 

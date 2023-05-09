@@ -16,6 +16,10 @@ type Configuration struct {
 	Token TokenConfig
 	// ShowDocs use to enable the documentation of the api
 	ShowDocs bool
+
+	// RateLimiter contains configuration used to limit the http requests
+	// over certain time interval per IP or token.
+	RateLimiter RateLimiterConfig
 }
 
 type DBconfig struct {
@@ -41,6 +45,16 @@ type TokenConfig struct {
 type ServerConfig struct {
 	// The port to listen
 	Port string
+}
+
+type RateLimiterConfig struct {
+	// SecondsWindow is the duration of the time window in which the max n of requests is counted (in seconds,
+	// for the rate limiter).
+	SecondsWindow int
+
+	// MaxReqPerIP is the max number of requests that a single user (by IP) can make in the time interval defined
+	// in SecondsWindow.
+	MaxReqPerIP int
 }
 
 func ReadConfig() {

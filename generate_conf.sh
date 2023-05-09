@@ -1,3 +1,5 @@
+#!/bin/bash
+
 jq -n \
     --arg dbtype "$DB_TYPE" \
     --arg dbaddress "$DB_ADDRESS" \
@@ -22,5 +24,9 @@ jq -n \
         },
         "Token": {
             "Secret": $tokensecret
+        },
+        "RateLimiter": {
+            "SecondsWindow": 60,
+            "MaxReqPerIP": 1000
         }
     }'  > config.json

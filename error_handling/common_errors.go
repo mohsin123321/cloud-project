@@ -17,3 +17,6 @@ var ErrInvalidToken = &CustomError{message: "ERR_INVALID_TOKEN", status: http.St
 
 // ErrMissingToken is raised when request does not contain a jwt for an API which requires authentication.
 var ErrMissingToken = &CustomError{message: "ERR_MISSING_TOKEN", status: http.StatusUnauthorized}
+
+// ErrRequestLimitReached is raised when the request is spammed by the user
+var ErrRequestLimitReached = &CustomError{message: "ERR_REQUEST_LIMIT_REACHED", status: http.StatusTooManyRequests}
