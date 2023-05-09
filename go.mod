@@ -3,11 +3,11 @@ module github.com/mohsin123321/cloud-project
 go 1.19
 
 require (
+	github.com/go-chi/chi v1.5.4
 	github.com/go-playground/validator v9.31.0+incompatible
 	github.com/gofrs/uuid v4.3.0+incompatible
 	github.com/golang-jwt/jwt v3.2.2+incompatible
 	github.com/golang/mock v1.6.0
-	github.com/gorilla/handlers v1.5.1
 	github.com/gorilla/mux v1.8.0
 	github.com/rs/cors v1.8.2
 	github.com/stretchr/testify v1.8.0
@@ -20,7 +20,6 @@ require (
 require (
 	github.com/KyleBanks/depth v1.2.1 // indirect
 	github.com/davecgh/go-spew v1.1.1 // indirect
-	github.com/felixge/httpsnoop v1.0.3 // indirect
 	github.com/go-openapi/jsonpointer v0.19.5 // indirect
 	github.com/go-openapi/jsonreference v0.20.0 // indirect
 	github.com/go-openapi/spec v0.20.6 // indirect

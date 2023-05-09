@@ -3,20 +3,18 @@ package router
 import (
 	"log"
 	"net/http"
-	"os"
 	"runtime"
 
 	"github.com/golang-jwt/jwt"
-	"github.com/gorilla/handlers"
 	"github.com/mohsin123321/cloud-project/config"
 	"github.com/mohsin123321/cloud-project/error_handling"
 	"github.com/mohsin123321/cloud-project/model"
 )
 
-// log into the terminal all the informations about a call to an api
-func loggingMiddleware(h http.Handler) http.Handler {
-	return handlers.LoggingHandler(os.Stdout, h)
-}
+// // log into the terminal all the informations about a call to an api
+// func loggingMiddleware(h http.Handler) http.Handler {
+// 	return handlers.LoggingHandler(os.Stdout, h)
+// }
 
 // recover the panic called by an api
 func recoveryPanicMdlw(h http.Handler) http.Handler {

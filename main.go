@@ -3,9 +3,8 @@ package main
 import (
 	"log"
 	"net/http"
-	"reflect"
 
-	"github.com/gorilla/mux"
+	"github.com/go-chi/chi"
 	"github.com/mohsin123321/cloud-project/config"
 	"github.com/mohsin123321/cloud-project/controller"
 	"github.com/mohsin123321/cloud-project/dataservice"
@@ -13,7 +12,6 @@ import (
 	"github.com/mohsin123321/cloud-project/router"
 	"github.com/mohsin123321/cloud-project/utility"
 	"github.com/rs/cors"
-	httpSwagger "github.com/swaggo/http-swagger"
 )
 
 // @title IOT Device API
@@ -31,22 +29,18 @@ func main() {
 	ds := dataservice.SetupDGS()
 
 	// release the resoures by closing connection
-	if !reflect.ValueOf(ds.Db).IsZero() {
-		ds.Db.Close()
-	}
+	ds.Db.Close()
 
 	utility := utility.Utility{}
 	ctrl := controller.HttpController{
 		Ds: ds,
 		Ut: &utility,
 	}
-	r := mux.NewRouter()
 
-	router.SetupRoutes(r, &ctrl)
+	// Initialize the router
+	r := chi.NewRouter()
 
-	if config.Config.ShowDocs {
-		r.PathPrefix("/docs/").Handler(httpSwagger.WrapHandler)
-	}
+	r.Mount("/api", router.SetupRoutes(r, &ctrl))
 
 	// start server
 	log.Println("server is listening on port:", config.Config.Server.Port)
