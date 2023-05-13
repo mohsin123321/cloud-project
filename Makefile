@@ -48,4 +48,4 @@ conf:
 	./generate_conf.sh
 
 docs:
-	swag init --pd
+	swag init
