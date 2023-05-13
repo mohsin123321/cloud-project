@@ -1,5 +1,4 @@
-run: 
-	go run main.go
+.PHONY: docs
 printf = @printf "%s\t\t%s\n"
 
 help:
@@ -17,7 +16,10 @@ help:
 	$(printf) "docs" "used to generate the swagger documentation of the api"
 
 	@echo -e "\n'run' will be executed by default if you do not specify a command."
-	
+
+run: 
+	go run main.go
+
 build:
 	CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o go-code .
 
