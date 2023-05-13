@@ -14,6 +14,7 @@ help:
 	$(printf) "test" "prepare tests and run unit tests"
 	$(printf) "docker_compose" "used to build and run docker containers containing go app and mongodb container"
 	$(printf) "conf" "used to generate the configuration file"
+	$(printf) "docs" "used to generate the swagger documentation of the api"
 
 	@echo -e "\n'run' will be executed by default if you do not specify a command."
 	
@@ -23,10 +24,10 @@ build:
 ci: semgrep lint trivy
 
 semgrep:
-	semgrep --config p/golang --error .
+	semgrep --config p/ci --config p/golang --error .
 
 lint:
-	golangci-lint run
+	golangci-lint run -v --timeout 5m
 
 trivy:
 	trivy fs -s MEDIUM,HIGH,CRITICAL --exit-code 1 --skip-dirs tests .
@@ -39,7 +40,10 @@ prepare_test:
 	go generate test.go
 
 test: prepare_test
-	go test ./tests/unit/...
+	 go test -v ./tests/unit/...
 
 conf: 
 	./generate_conf.sh
+
+docs:
+	swag init --pd

@@ -2,8 +2,8 @@ package config
 
 import (
 	"encoding/json"
-	"io/ioutil"
 	"log"
+	"os"
 )
 
 var Config Configuration
@@ -60,7 +60,7 @@ type RateLimiterConfig struct {
 func ReadConfig() {
 
 	// read the config.json
-	raw, err := ioutil.ReadFile("config.json")
+	raw, err := os.ReadFile("config.json")
 	if err != nil {
 		log.Fatal("Error reading config.json")
 	}

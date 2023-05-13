@@ -6,3 +6,10 @@ goapp
 
 # config file
 config.json
+
+# swagger docs
+docs
+
+# mocks for tests
+***/mock_interfaces/***
+
