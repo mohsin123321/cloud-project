@@ -37,7 +37,7 @@ docker_compose:
 	docker-compose up
 
 prepare_test: 
-	go generate test.go
+	go generate tests/test.go
 
 test: prepare_test
 	 go test -v ./tests/unit/...
