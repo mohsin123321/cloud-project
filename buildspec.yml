@@ -1,13 +1,51 @@
 version: 0.2
+
 phases:
   install:
+    runtime-versions:
+      golang: 1.20
+      python: 3.11
+    commands: 
+      - apt-get install -y jq
+      - curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s
+      - pip install semgrep
+  pre_build:
     commands:
-      - nohup /usr/local/bin/dockerd --host=unix:///var/run/docker.sock --host=tcp://127.0.0.1:2375 --storage-driver=overlay2&
-      - timeout 15 sh -c "until docker info; do echo .; sleep 1; done"
+      # export the golanci-lint binaries
+      - export PATH=$PWD/bin:$PATH
+      # installing mockogen for tests
+      - go install github.com/golang/mock/mockgen@v1.6.0
+      # installing swagger for docs
+      - go install github.com/swaggo/swag/cmd/swag@v1.8.4
+      # running tests over the project
+      - make test
+      # generate the api docs
+      - make -B docs
+      # running golang linter
+      - make lint
+      # checking semgrep errors
+      - make semgrep
+      # Repository url
+      - REPOSITORY_URI=$AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME
+      # Logging into ecr for pushing iamges
+      - aws --region eu-south-1 ecr get-login-password | docker login --username AWS --password-stdin $REPOSITORY_URI
+      # execute the shell script to generate the configuration of the project
+      - make conf
   build:
     commands:
-      - docker-compose build 
+      - echo Build started on `date`
+      # building go binary
+      - CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o goapp .
+      # build the docker image
+      - docker build -t $REPOSITORY_URI:latest .
+  post_build:
+    commands:
+      - echo Build completed on `date`
+      # push the docker image to ecr
+      - docker push $REPOSITORY_URI:latest
+      # printing the details of the image to json useful in deploying the project
+      - printf '[{"name":"goapp","imageUri":"%s"}]' $REPOSITORY_URI:latest > imagedefinitions.json
 artifacts:
   files:
-    - '**/*'
-  discard-paths: yes
+    # final artifact that contains docker image info
+    - imagedefinitions.json
