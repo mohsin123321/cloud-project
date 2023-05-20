@@ -25,16 +25,23 @@ type Configuration struct {
 type DBconfig struct {
 	// Type of the database to use. Actually, only mysql is supported
 	DbType string
-	// Address(or hostname) of the database
-	DbAddr string
-	// Port of the database
-	DbPort string
 	// User of the database to use
 	DbUser string
 	// Password of the database to use
 	DbPass string
 	// Name of the database to use
 	DbName string
+	// Mongodb replicas address
+	Replicas []ReplicaSet
+	// MongoDb replica name
+	ReplicaName string
+}
+
+type ReplicaSet struct {
+	// Replica host name
+	Host string
+	// Replica port number
+	Port string
 }
 
 // TokenConfig contains token information

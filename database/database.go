@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log"
 	"net/url"
+	"strings"
 
 	"github.com/mohsin123321/cloud-project/config"
 	"github.com/mohsin123321/cloud-project/model"
@@ -27,16 +28,27 @@ type Database struct {
 // SetupDB initializes the db and returns it
 func SetupDB() *Database {
 	var err error
+	var replicas []string
+	for _, r := range config.Config.Database.Replicas {
+		replicaAddress := r.Host + ":" + r.Port
+		replicas = append(replicas, replicaAddress)
+	}
 
+	// entire replica string
+	replicasPath := strings.Join(replicas, ",")
+
+	// final string should look like this
+	// mongodb://username:password@replicahost:replicaPort,replicahost:replicaPort/database?replicaSet=replicaSetName
 	connString := fmt.Sprintf(
-		"%s://%s:%s@%s:%s/%s?maxPoolSize=20&w=majority",
+		"%s://%s:%s@%s/%s?replicaSet=%s&maxPoolSize=20&w=majority",
 		config.Config.Database.DbType,
 		config.Config.Database.DbUser,
 		url.QueryEscape(config.Config.Database.DbPass),
-		config.Config.Database.DbAddr,
-		config.Config.Database.DbPort,
+		replicasPath,
 		config.Config.Database.DbName,
+		config.Config.Database.ReplicaName,
 	)
+	log.Println(connString)
 
 	clientOpts := options.Client().ApplyURI(connString)
 	client, err := mongo.Connect(context.TODO(), clientOpts)
