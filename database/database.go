@@ -40,7 +40,7 @@ func SetupDB() *Database {
 	// final string should look like this
 	// mongodb://username:password@replicahost:replicaPort,replicahost:replicaPort/database?replicaSet=replicaSetName
 	connString := fmt.Sprintf(
-		"%s://%s:%s@%s/%s?replicaSet=%s&maxPoolSize=20&w=majority",
+		"%s://%s:%s@%s/%s?replicaSet=%s",
 		config.Config.Database.DbType,
 		config.Config.Database.DbUser,
 		url.QueryEscape(config.Config.Database.DbPass),
