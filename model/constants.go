@@ -6,3 +6,12 @@ const (
 )
 
 const TokenHeader string = "X-Auth-Token"
+
+// CtxKey represents a key (string) for retrieving struct saved in request context.
+type CtxKey struct {
+	Key string
+}
+
+func GetCtxKeyID() CtxKey {
+	return CtxKey{Key: "id"}
+}

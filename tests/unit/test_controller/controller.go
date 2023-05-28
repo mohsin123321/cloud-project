@@ -3,16 +3,13 @@ package test_controller
 import (
 	"bytes"
 	"encoding/json"
-	"fmt"
 	"io"
-	"log"
 	"net/http"
 	"net/http/httptest"
 	"testing"
 
 	"github.com/go-playground/validator"
 	"github.com/golang/mock/gomock"
-	"github.com/gorilla/mux"
 	"github.com/mohsin123321/cloud-project/controller"
 	"github.com/mohsin123321/cloud-project/error_handling"
 	"github.com/mohsin123321/cloud-project/tests/mock_interfaces"
@@ -54,21 +51,13 @@ func serveRequest(f func(http.ResponseWriter, *http.Request), req *http.Request)
 }
 
 // createRequest generates the http request with the method, path, body and vars(params passed into the url)
-func createRequest(method string, path string, body interface{}, vars map[string]string) *http.Request {
+func createRequest(t *testing.T, method string, path string, body interface{}) *http.Request {
 	var req *http.Request
 
 	if body != nil {
-		var requestBody []byte
-
-		switch body.(type) {
-		case string:
-			requestBody = []byte(fmt.Sprint(body))
-		default:
-			if bytes, err := json.Marshal(body); err != nil {
-				log.Fatal(err)
-			} else {
-				requestBody = bytes
-			}
+		requestBody, err := json.Marshal(body)
+		if err != nil {
+			t.Fatalf("Error marshaling request body: %v", err)
 		}
 
 		req = httptest.NewRequest(method, path, bytes.NewReader(requestBody))
@@ -76,7 +65,7 @@ func createRequest(method string, path string, body interface{}, vars map[string
 		req = httptest.NewRequest(method, path, nil)
 	}
 
-	return mux.SetURLVars(req, vars)
+	return req
 }
 
 // checkResponse check the statusCode and the body of the response
@@ -106,7 +95,7 @@ func checkResponse(t *testing.T, resp *http.Response, expectedHttpStatus int, ex
 }
 
 // mockParseBody mocks the parseBody function
-func mockParseBody(body io.ReadCloser, dest interface{}) bool {
+func mockParseBody(body io.ReadCloser, dest interface{}) {
 	if body == http.NoBody {
 		error_handling.ThrowError(error_handling.ErrBadSyntax)
 	}
@@ -124,5 +113,5 @@ func mockParseBody(body io.ReadCloser, dest interface{}) bool {
 	if err != nil {
 		error_handling.ThrowError(error_handling.ErrBadSyntax)
 	}
-	return true
+
 }

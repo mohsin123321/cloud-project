@@ -23,6 +23,7 @@ require (
 	github.com/KyleBanks/depth v1.2.1 // indirect
 	github.com/cespare/xxhash/v2 v2.1.2 // indirect
 	github.com/davecgh/go-spew v1.1.1 // indirect
+	github.com/go-chi/httplog v0.3.0 // indirect
 	github.com/go-openapi/jsonpointer v0.19.5 // indirect
 	github.com/go-openapi/jsonreference v0.20.0 // indirect
 	github.com/go-openapi/spec v0.20.6 // indirect
@@ -35,9 +36,12 @@ require (
 	github.com/klauspost/compress v1.15.11 // indirect
 	github.com/leodido/go-urn v1.2.1 // indirect
 	github.com/mailru/easyjson v0.7.6 // indirect
+	github.com/mattn/go-colorable v0.1.12 // indirect
+	github.com/mattn/go-isatty v0.0.14 // indirect
 	github.com/montanaflynn/stats v0.6.6 // indirect
 	github.com/pkg/errors v0.9.1 // indirect
 	github.com/pmezard/go-difflib v1.0.0 // indirect
+	github.com/rs/zerolog v1.27.0 // indirect
 	github.com/stretchr/objx v0.4.0 // indirect
 	github.com/swaggo/files v0.0.0-20220610200504-28940afbdbfe // indirect
 	github.com/xdg-go/pbkdf2 v1.0.0 // indirect

@@ -14,8 +14,9 @@ func TestInsertData_Success(t *testing.T) {
 
 	// making the request
 	body := mock_data.DataBody
-	path := "/device"
-	req := createRequest(http.MethodGet, path, body, nil)
+	path := "/device/123"
+
+	req := createRequest(t, http.MethodGet, path, body)
 
 	// setup expected function calls
 	mocks.Ut.EXPECT().ParseBody(req.Body, &dto.PostDataBody{}).Do(mockParseBody)

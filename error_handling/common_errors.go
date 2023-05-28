@@ -1,22 +1,52 @@
 package error_handling
 
-import "net/http"
+import (
+	"net/http"
+)
 
-/*
-	500 Internal Server Error -  The server encountered an unexpected condition which prevented it from fulfilling the request.
-*/
-
-// ErrServerError is raised when server breaks for internal reasons
-var ErrServerError = &CustomError{message: "ERR_INTERNAL_SERVER_ERROR", status: http.StatusInternalServerError}
+// ErrServerError is raised when server breaks for internal reasons.
+func ErrServerError() *CustomError {
+	return &CustomError{
+		err:    "ERR_INTERNAL_SERVER_ERROR",
+		msg:    "Internal Server Error",
+		status: http.StatusInternalServerError,
+	}
+}
 
 // ErrBadSyntax is raised when user provides a form or body with missing or invalid fields.
-var ErrBadSyntax = &CustomError{message: "ERR_BAD_SYNTAX", status: http.StatusBadRequest}
+func ErrBadSyntax() *CustomError {
+	return &CustomError{
+		err:    "ERR_BAD_SYNTAX",
+		msg:    "Provided request body fields are not valid",
+		status: http.StatusBadRequest,
+	}
+}
 
 // ErrInvalidToken is raised when the token contained in the request is not valid.
-var ErrInvalidToken = &CustomError{message: "ERR_INVALID_TOKEN", status: http.StatusUnauthorized}
+func ErrInvalidToken() *CustomError {
+	return &CustomError{
+		err:    "ERR_INVALID_TOKEN",
+		msg:    "Jwt Token is invalid or expired",
+		status: http.StatusUnauthorized,
+	}
+}
 
 // ErrMissingToken is raised when request does not contain a jwt for an API which requires authentication.
-var ErrMissingToken = &CustomError{message: "ERR_MISSING_TOKEN", status: http.StatusUnauthorized}
+func ErrMissingToken() *CustomError {
+	return &CustomError{
+		err:    "ERR_MISSING_TOKEN",
+		msg:    "Jwt Token is missing in the request header",
+		status: http.StatusUnauthorized,
+	}
+
+}
 
 // ErrRequestLimitReached is raised when the request is spammed by the user
-var ErrRequestLimitReached = &CustomError{message: "ERR_REQUEST_LIMIT_REACHED", status: http.StatusTooManyRequests}
+func ErrRequestLimitReached() *CustomError {
+	return &CustomError{
+		err:    "ERR_REQUEST_LIMIT_REACHED",
+		msg:    "Request limit reached for this endpoint",
+		status: http.StatusTooManyRequests,
+	}
+
+}

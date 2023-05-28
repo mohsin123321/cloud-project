@@ -8,16 +8,17 @@ import (
 	"strings"
 
 	"github.com/mohsin123321/cloud-project/config"
-	"github.com/mohsin123321/cloud-project/model"
+	"github.com/mohsin123321/cloud-project/error_handling"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 	"go.mongodb.org/mongo-driver/mongo/readpref"
+	"go.mongodb.org/mongo-driver/mongo/writeconcern"
 )
 
 // Database interface
 type DatabaseInterface interface {
+	DeviceInterface
 	Close()
-	InsertData(model.Data)
 }
 
 // Database struct
@@ -40,7 +41,7 @@ func SetupDB() *Database {
 	// final string should look like this
 	// mongodb://username:password@replicahost:replicaPort,replicahost:replicaPort/database?replicaSet=replicaSetName
 	connString := fmt.Sprintf(
-		"%s://%s:%s@%s/%s?replicaSet=%s",
+		"%s://%s:%s@%s/%s?replicaSet=%s&maxPoolSize=20&w=majority",
 		config.Config.Database.DbType,
 		config.Config.Database.DbUser,
 		url.QueryEscape(config.Config.Database.DbPass),
@@ -50,7 +51,10 @@ func SetupDB() *Database {
 	)
 	log.Println(connString)
 
-	clientOpts := options.Client().ApplyURI(connString)
+	//clientOpts := options.Client().ApplyURI(connString)
+	clientOpts := options.Client().ApplyURI(connString).
+		SetWriteConcern(writeconcern.New(writeconcern.WMajority()))
+
 	client, err := mongo.Connect(context.TODO(), clientOpts)
 	if err != nil {
 		log.Fatal("Error in db connection :", err)
@@ -75,4 +79,11 @@ func (db *Database) Close() {
 	if err := db.DB.Client().Disconnect(context.TODO()); err != nil {
 		panic(err)
 	}
+}
+
+func handleError(err error) error {
+	if err != nil {
+		err = error_handling.PropagateError(err, 2)
+	}
+	return err
 }

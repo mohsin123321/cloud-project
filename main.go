@@ -28,7 +28,7 @@ func main() {
 	ds := dataservice.SetupDGS()
 
 	// release the resoures by closing connection
-	ds.Db.Close()
+	//ds.Db.Close()
 
 	utility := utility.Utility{}
 	ctrl := controller.HttpController{

@@ -4,7 +4,6 @@ import (
 	"net/http"
 
 	"github.com/mohsin123321/cloud-project/dto"
-	"github.com/mohsin123321/cloud-project/utility"
 )
 
 // @Summary create sensors data.
@@ -19,8 +18,11 @@ import (
 // @Router /api/device [post]
 func (ctrl *HttpController) InsertData(w http.ResponseWriter, r *http.Request) {
 	var body dto.PostDataBody
-	ctrl.Ut.ParseBody(r.Body, &body)
-	ctrl.Ds.InsertData(body)
-
-	utility.NoContentResponse(w)
+	err := ctrl.Ut.ParseBody(r.Body, &body)
+	if err != nil {
+		ctrl.Ut.EncodeErrResponse(r, w, err)
+		return
+	}
+	err = ctrl.Ds.InsertData(body)
+	ctrl.Ut.EncodeEmptyResponse(r, w, err)
 }

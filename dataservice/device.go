@@ -6,7 +6,11 @@ import (
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
-func (ds *Dataservice) InsertData(body dto.PostDataBody) {
+type DeviceInterface interface {
+	InsertData(dto.PostDataBody) error
+}
+
+func (ds *Dataservice) InsertData(body dto.PostDataBody) error {
 	data := model.Data{
 		ID:        primitive.NewObjectID(),
 		DeviceID:  body.DeviceID,
@@ -16,5 +20,6 @@ func (ds *Dataservice) InsertData(body dto.PostDataBody) {
 		Latitude:  body.Latitude,
 		Longitude: body.Longitude,
 	}
-	ds.Db.InsertData(data)
+	err := ds.Db.InsertData(data)
+	return handleError(err)
 }

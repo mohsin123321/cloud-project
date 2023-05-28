@@ -15,33 +15,44 @@ func SetupRoutes(ctrl controller.ControllerInterface) *chi.Mux {
 	r := chi.NewRouter()
 
 	// added common middlewares
-	r.Use(corsMiddleware, middleware.NoCache, iPPathLimitMiddleware, middleware.Logger, recoveryPanicMdlw)
+	commonMiddlewares(r)
 
 	setupPublicRouter(r, ctrl)
-	setupPrivateRouter(r, ctrl)
+	r.Mount("/", setupPrivateRouter(ctrl))
 
 	return r
 }
 
+func commonMiddlewares(r *chi.Mux) {
+	r.Use(corsMiddleware)
+	r.Use(middleware.NoCache)
+	r.Use(iDMiddleware)
+	r.Use(iPPathLimitMiddleware)
+	r.Use(loggerMiddleware)
+	r.Use(recoveryPanicMdlw)
+}
+
 // setup all private routes that needs authentication
-func setupPublicRouter(router *chi.Mux, ctrl controller.ControllerInterface) {
+func setupPublicRouter(r *chi.Mux, ctrl controller.ControllerInterface) *chi.Mux {
 	// ping endpoint
-	router.Get("/ping", func(w http.ResponseWriter, r *http.Request) {
+	r.Get("/ping", func(w http.ResponseWriter, r *http.Request) {
 		_, _ = w.Write([]byte("Pong"))
 	})
 
 	if config.Config.ShowDocs {
 		// swagger docs endpoint
-		router.Get("/docs/*", httpSwagger.WrapHandler)
+		r.Get("/docs/*", httpSwagger.WrapHandler)
 	}
+	return r
 }
 
 // setup all private routes that needs authentication
-func setupPrivateRouter(router *chi.Mux, ctrl controller.ControllerInterface) {
+func setupPrivateRouter(ctrl controller.ControllerInterface) *chi.Mux {
 	r := chi.NewRouter()
-
 	// add authentication middleware for the private routes
 	r.Use(checkAuthMdlw)
 
 	r.Post("/device", ctrl.InsertData)
+
+	return r
 }
