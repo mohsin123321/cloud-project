@@ -2,7 +2,7 @@ package mock_data
 
 import "github.com/gofrs/uuid"
 
-func ID() uuid.UUID {
+func NewID() uuid.UUID {
 	id, err := uuid.NewV4()
 	if err != nil {
 		panic(err)

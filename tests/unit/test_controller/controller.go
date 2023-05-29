@@ -3,17 +3,13 @@ package test_controller
 import (
 	"bytes"
 	"encoding/json"
-	"io"
 	"net/http"
 	"net/http/httptest"
 	"testing"
 
-	"github.com/go-playground/validator"
 	"github.com/golang/mock/gomock"
 	"github.com/mohsin123321/cloud-project/controller"
-	"github.com/mohsin123321/cloud-project/error_handling"
 	"github.com/mohsin123321/cloud-project/tests/mock_interfaces"
-	"gopkg.in/go-playground/assert.v1"
 )
 
 type ControllerMockedComp struct {
@@ -21,7 +17,7 @@ type ControllerMockedComp struct {
 	Ut      *mock_interfaces.MockUtilityInterface
 }
 
-func setup(t *testing.T) (controller.HttpController, ControllerMockedComp) {
+func setup(t *testing.T) (controller.HttpController, ControllerMockedComp, http.ResponseWriter) {
 	mockCtrl := gomock.NewController(t)
 	defer mockCtrl.Finish()
 
@@ -38,17 +34,17 @@ func setup(t *testing.T) (controller.HttpController, ControllerMockedComp) {
 		Ut:      ut,
 	}
 
-	return ctrl, mocks
+	return ctrl, mocks, httptest.NewRecorder()
 }
 
-// serveRequest create a newRecorder and pass it to the f
-func serveRequest(f func(http.ResponseWriter, *http.Request), req *http.Request) *http.Response {
+// // serveRequest create a newRecorder and pass it to the f
+// func serveRequest(f func(http.ResponseWriter, *http.Request), req *http.Request) *http.Response {
 
-	w := httptest.NewRecorder()
-	f(w, req)
+// 	w := httptest.NewRecorder()
+// 	f(w, req)
 
-	return w.Result()
-}
+// 	return w.Result()
+// }
 
 // createRequest generates the http request with the method, path, body and vars(params passed into the url)
 func createRequest(t *testing.T, method string, path string, body interface{}) *http.Request {
@@ -68,50 +64,28 @@ func createRequest(t *testing.T, method string, path string, body interface{}) *
 	return req
 }
 
-// checkResponse check the statusCode and the body of the response
-func checkResponse(t *testing.T, resp *http.Response, expectedHttpStatus int, expectedBody interface{}, bodyTypeExp interface{}) {
+// // checkResponse check the statusCode and the body of the response
+// func checkResponse(t *testing.T, resp *http.Response, expectedHttpStatus int, expectedBody interface{}, bodyTypeExp interface{}) {
 
-	defer resp.Body.Close()
+// 	defer resp.Body.Close()
 
-	// check the statusCode
-	assert.Equal(t, expectedHttpStatus, resp.StatusCode)
+// 	// check the statusCode
+// 	assert.Equal(t, expectedHttpStatus, resp.StatusCode)
 
-	// check the body
-	if expectedBody != nil {
+// 	// check the body
+// 	if expectedBody != nil {
 
-		b, err := io.ReadAll(resp.Body)
-		if err != nil {
-			t.Error()
-		}
+// 		b, err := io.ReadAll(resp.Body)
+// 		if err != nil {
+// 			t.Error()
+// 		}
 
-		err = json.Unmarshal(b, &bodyTypeExp)
-		if err != nil {
-			t.Error()
-		}
+// 		err = json.Unmarshal(b, &bodyTypeExp)
+// 		if err != nil {
+// 			t.Error()
+// 		}
 
-		assert.Equal(t, expectedBody, bodyTypeExp)
-	}
+// 		assert.Equal(t, expectedBody, bodyTypeExp)
+// 	}
 
-}
-
-// mockParseBody mocks the parseBody function
-func mockParseBody(body io.ReadCloser, dest interface{}) {
-	if body == http.NoBody {
-		error_handling.ThrowError(error_handling.ErrBadSyntax)
-	}
-
-	// decode
-	err := json.NewDecoder(body).Decode(&dest)
-	if err != nil {
-		error_handling.ThrowError(error_handling.ErrBadSyntax)
-	}
-
-	// validate
-	v := validator.New()
-
-	err = v.Struct(dest)
-	if err != nil {
-		error_handling.ThrowError(error_handling.ErrBadSyntax)
-	}
-
-}
+// }
