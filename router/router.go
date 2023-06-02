@@ -34,7 +34,8 @@ func commonMiddlewares(r *chi.Mux) {
 
 // setup all private routes that needs authentication
 func setupPublicRouter(r *chi.Mux, ctrl controller.ControllerInterface) *chi.Mux {
-	// ping endpoint
+
+	// ping endpoint useful to check the heart beat of the app
 	r.Get("/ping", func(w http.ResponseWriter, r *http.Request) {
 		_, _ = w.Write([]byte("Pong"))
 	})

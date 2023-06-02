@@ -15,7 +15,7 @@ type ParserInterface interface {
 }
 
 func (ut *Utility) ParseBody(body io.ReadCloser, dest interface{}) error {
-	if body == http.NoBody {
+	if body == http.NoBody || body == nil {
 		return error_handling.ErrBadSyntax()
 	}
 

@@ -26,20 +26,20 @@ type CustomError struct {
 	ID         uuid.UUID // request uuid
 }
 
-// Error returns error
+// Error returns error.
 func (e *CustomError) Error() string {
 	return e.err
 }
 
-// Error returns error message.
+// Status returns error code.
 func (e *CustomError) Status() int {
 	return e.status
 }
 
-// // Status returns HTTP status code as registered with IANA.
-// func (e *CustomError) Status() int {
-// 	return e.Status
-// }
+// Msg returns error message.
+func (e *CustomError) Msg() string {
+	return e.msg
+}
 
 // AddStackTraceItem appends a stack trace message
 func (e *CustomError) AddStackTraceItem(item string) {

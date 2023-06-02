@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"encoding/json"
 	"io"
+	"net/http"
 	"testing"
 
 	"github.com/mohsin123321/cloud-project/error_handling"
@@ -12,8 +13,14 @@ import (
 
 func TestParseBody_Fail_NoBody(t *testing.T) {
 	ut := setupUtility(t)
+	err := ut.ParseBody(http.NoBody, nil)
 
-	err := ut.ParseBody(io.NopCloser(bytes.NewReader(nil)), nil)
+	assert.Equal(t, err, error_handling.ErrBadSyntax())
+}
+
+func TestParseBody_Fail_NilBody(t *testing.T) {
+	ut := setupUtility(t)
+	err := ut.ParseBody(nil, nil)
 
 	assert.Equal(t, err, error_handling.ErrBadSyntax())
 }
