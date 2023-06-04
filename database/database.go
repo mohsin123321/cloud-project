@@ -12,7 +12,6 @@ import (
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 	"go.mongodb.org/mongo-driver/mongo/readpref"
-	"go.mongodb.org/mongo-driver/mongo/writeconcern"
 )
 
 // Database interface
@@ -49,12 +48,8 @@ func SetupDB() *Database {
 		config.Config.Database.DbName,
 		config.Config.Database.ReplicaName,
 	)
-	log.Println(connString)
 
-	//clientOpts := options.Client().ApplyURI(connString)
-	clientOpts := options.Client().ApplyURI(connString).
-		SetWriteConcern(writeconcern.New(writeconcern.WMajority()))
-
+	clientOpts := options.Client().ApplyURI(connString)
 	client, err := mongo.Connect(context.TODO(), clientOpts)
 	if err != nil {
 		log.Fatal("Error in db connection :", err)
@@ -62,11 +57,10 @@ func SetupDB() *Database {
 
 	// check connection
 	if err := client.Ping(context.TODO(), readpref.Primary()); err != nil {
-		log.Println("Cannot connect to the db")
-		log.Fatal(err)
+		log.Fatal("Cannot connect to the db :", err)
 	}
 
-	fmt.Println("connected to the db successfully")
+	log.Println("connected to the db successfully")
 	return &Database{
 		DB: client.Database(config.Config.Database.DbName),
 	}

@@ -11,7 +11,8 @@ help:
 	$(printf) "lint" "run the linter golangci-lint"
 	$(printf) "prepare_test" "prepare unit tests folder"
 	$(printf) "test" "prepare tests and run unit tests"
-	$(printf) "docker_compose" "used to build and run docker containers containing go app and mongodb container"
+	$(printf) "launch" "build go app and run docker containers that includes both go app and mongodb replica set"
+	$(printf) "shutdown" "Stop and clean up the Docker containers running the Go application and MongoDB replica set"
 	$(printf) "conf" "used to generate the configuration file"
 	$(printf) "docs" "used to generate the swagger documentation of the api"
 
@@ -25,7 +26,7 @@ build:
 
 ci: semgrep lint trivy
 
-semgrep:
+semgrep: 
 	semgrep --config p/ci --config p/golang --error .
 
 lint:
@@ -34,9 +35,11 @@ lint:
 trivy:
 	trivy fs -s MEDIUM,HIGH,CRITICAL --exit-code 1 --skip-dirs tests .
 
-docker_compose:
-	docker-compose build
-	docker-compose up
+launch: build
+	bash ./scripts/startdb.sh 
+
+shutdown:
+	docker-compose --file docker-compose.yml down
 
 prepare_test: 
 	go generate tests/test.go

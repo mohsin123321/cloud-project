@@ -1,24 +1,49 @@
-version: "3.7"
+version: '3.7'
+
 services:
   go-app:
-    depends_on:
-      - mongodb
+    container_name: go-app
     build: .
     ports:
       - "8080:8080"
     networks:
-      - mongo-go
-  mongodb:
-    image: mongo:latest
+      - mongors-network
+  mongo1:
+    container_name: mongo1
+    image: mongo:4.4
     volumes:
-    - /data/db
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: root
-      MONGO_INITDB_ROOT_PASSWORD: root
-    ports:
-    - "27018:27017"
-    restart: unless-stopped
+      - /rs0:/data/db
+      - ./scripts/rs-init.sh:/scripts/rs-init.sh
     networks:
-      - mongo-go
+      - mongors-network
+    restart: always
+    entrypoint: [ "/usr/bin/mongod", "--bind_ip_all", "--replSet", "db-replication" ]
+  mongo2:
+    container_name: mongo2
+    image: mongo:4.4
+    volumes:
+      - /rs1:/data/db
+    networks:
+      - mongors-network
+    restart: always
+    entrypoint: [ "/usr/bin/mongod", "--bind_ip_all", "--replSet", "db-replication" ]
+  mongo3:
+    container_name: mongo3
+    image: mongo:4.4
+    volumes:
+      - /rs2:/data/db
+    networks:
+      - mongors-network
+    restart: always
+    entrypoint: [ "/usr/bin/mongod", "--bind_ip_all", "--replSet", "db-replication" ]
+
 networks:
-  mongo-go:
+  mongors-network:
+    driver: bridge
+volumes:
+  rs0:
+    name: rs0
+  rs1:
+    name: rs1
+  rs2:
+    name: rs2
