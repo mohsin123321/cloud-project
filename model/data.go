@@ -8,7 +8,7 @@ import (
 type Data struct {
 	ID        primitive.ObjectID `bson:"_id"`
 	DeviceID  uuid.UUID          `bson:"deviceId"`
-	Value     float32            `bson:"value"`
+	Value     float64            `bson:"value"`
 	Type      string             `bson:"type"`
 	Date      int64              `bson:"date"`
 	Latitude  float64            `bson:"latitude"`
