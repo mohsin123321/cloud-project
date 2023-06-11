@@ -12,13 +12,6 @@ Additionally, we will be using MongoDB as our database to store the received IoT
 - Container : Docker
 - Simulator link 
 
-## Architecture 
-The project consists of three main components. First, we have a prepared simulator responsible for generating data with any complexity. It uses JavaScript functions to give us maximum flexibility and sends data to the platforms we can use with minimum configuration. Additionally, we can customize the frequency with which data will be sent based on dataset timestamp properties or just a constant time interval. For now, we are using the simulator to generate the data, but later on, we plan to connect to real sensors.
-
-Secondly, we have a Golang application where we have the core logic of our application. After validating the token in the middleware, we will create the devices.
-
-Finally, we have MongoDB where we will save the data after creating devices. This is necessary because the data that is coming from the simulator are based on different sensors and different data types.
-![Untitled Diagram drawio](https://user-images.githubusercontent.com/33392969/195940133-8c75f367-cbd0-4f31-ba50-ded56d4567f5.png)
 
 ## Commands
 1- run following commands to run the simulator 
