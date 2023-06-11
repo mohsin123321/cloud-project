@@ -14,6 +14,7 @@ import (
 	"github.com/mohsin123321/cloud-project/error_handling"
 	"github.com/mohsin123321/cloud-project/model"
 	"github.com/mohsin123321/cloud-project/utility"
+	"github.com/urfave/negroni"
 )
 
 // corsMiddleware set CORS for requests.
@@ -94,12 +95,15 @@ func loggerMiddleware(next http.Handler) http.Handler {
 			panic(error_handling.ErrServerError)
 		}
 
+		// response writer wrapper
+		rww := negroni.NewResponseWriter(w)
+
 		defer func() {
 			elapsedTime := time.Since(start).String()
-			log.Printf("%s %s %s %s", id.String(), r.Method, r.URL.Path, elapsedTime)
+			log.Println(id.String(), r.Method, r.RemoteAddr, rww.Status(), r.URL.Path, elapsedTime)
 		}()
 
-		next.ServeHTTP(w, r)
+		next.ServeHTTP(rww, r)
 	})
 }
 

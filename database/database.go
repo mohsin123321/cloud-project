@@ -48,6 +48,7 @@ func SetupDB() *Database {
 		config.Config.Database.DbName,
 		config.Config.Database.ReplicaName,
 	)
+	log.Println(connString)
 
 	clientOpts := options.Client().ApplyURI(connString)
 	client, err := mongo.Connect(context.TODO(), clientOpts)
