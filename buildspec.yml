@@ -35,7 +35,7 @@ phases:
     commands:
       - echo Build started on `date`
       # building go binary
-      - CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o goapp .
+      - make build
       # build the docker image
       - docker build -t $REPOSITORY_URI:latest .
   post_build:
