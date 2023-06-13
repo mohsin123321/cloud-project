@@ -3,7 +3,7 @@
 
 
 
-The aim of the project is to create a scalable web application in Golang that can receive data from an external simulator generating IoT data. To ensure smooth and efficient delivery of the application to production, we need to implement Continuous Integration and Continuous Deployment (CI/CD) using AWS CodePipeline. Our goal is to automate the deployment process and reduce the time required for manual deployments. We will also need to ensure that the application can be scaled up easily to handle increasing traffic as more users begin to use it. Our focus is to leverage AWS services such as Elastic Beanstalk, CodePipeline, and CodeBuild to automate the deployment process and achieve scalability.
+The aim of the project is to create a scalable web application in Golang that can receive data from an external simulator generating IoT data. To ensure smooth and efficient delivery of the application to production, we need to implement Continuous Integration and Continuous Deployment (CI/CD) using AWS CodePipeline. Our goal is to automate the deployment process and reduce the time required for manual deployments. We will also need to ensure that the application can be scaled up easily to handle increasing traffic as more users begin to use it. Our focus is to leverage AWS services such as ECS,EC2, CodePipeline, and CodeBuild to automate the deployment process and achieve scalability.
 Additionally, we will be using MongoDB as our database to store the received IoT data. Our aim is to create a seamless and reliable pipeline that can handle the deployment and scaling of the application while ensuring the data is stored securely and reliably in our database.
  
  ## Technologies 
