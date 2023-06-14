@@ -18,7 +18,11 @@ Additionally, we will be using MongoDB as our database to store the received IoT
 
 `docker-compose pull`
 
-`docker-compose up`
+`make launch`
+
+and for shutting down: 
+`make shutdown`
+
 
 2- after running simulator dockerfile, go to `http://localhost:8090/` 
 
@@ -27,6 +31,6 @@ Additionally, we will be using MongoDB as our database to store the received IoT
 4- run the Go application with `go run main.go` command
 
   # AWS-Deployment-Documentation
-you can find a step-by-step walkthrough of implementing CI/CD pipeline for a Golang application on AWS using Elastic Beanstalk, CodePipeline, and CodeBuild in the following link :
+you can find a step-by-step walkthrough of implementing CI/CD pipeline for a Golang application in the following link :
 
 [AWS-Deployment-Documentation](https://github.com/sarahrajabazdeh/AWS-Deployment-Documentation/blob/main/README.md)
