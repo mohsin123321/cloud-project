@@ -16,7 +16,7 @@ services:
       - ./scripts/rs-init.sh:/scripts/rs-init.sh
     networks:
       - mongors-network
-    restart: always
+    restart: unless-stopped
     entrypoint: [ "/usr/bin/mongod", "--bind_ip_all", "--replSet", "db-replication" ]
   mongo2:
     container_name: mongo2
@@ -25,7 +25,7 @@ services:
       - /rs1:/data/db
     networks:
       - mongors-network
-    restart: always
+    restart: unless-stopped
     entrypoint: [ "/usr/bin/mongod", "--bind_ip_all", "--replSet", "db-replication" ]
   mongo3:
     container_name: mongo3
@@ -34,7 +34,7 @@ services:
       - /rs2:/data/db
     networks:
       - mongors-network
-    restart: always
+    restart: unless-stopped
     entrypoint: [ "/usr/bin/mongod", "--bind_ip_all", "--replSet", "db-replication" ]
 
 networks:
