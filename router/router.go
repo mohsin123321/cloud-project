@@ -50,10 +50,9 @@ func setupPublicRouter(r *chi.Mux, ctrl controller.ControllerInterface) *chi.Mux
 // setup all private routes that needs authentication
 func setupPrivateRouter(ctrl controller.ControllerInterface) *chi.Mux {
 	r := chi.NewRouter()
-	// add authentication middleware for the private routes
-	r.Use(checkAuthMdlw)
 
-	r.Post("/device", ctrl.InsertData)
+	// applied authentication middleware with these routers
+	r.With(checkAuthMdlw).Post("/device", ctrl.InsertData)
 
 	return r
 }
