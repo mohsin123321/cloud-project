@@ -22,7 +22,7 @@ Additionally, we will be using MongoDB as our database to store the received IoT
 2- after successfully starting the containers, this endpoint <http://localhost:8080/api/ping> can be used to check the health of the app.
 
 3- in order to remove/stop the containers run the following command:
-`make stop`
+`make shutdown`
 
 ## AWS-Deployment-Documentation
 
