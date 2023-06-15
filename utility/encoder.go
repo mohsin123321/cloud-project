@@ -30,7 +30,7 @@ func (ut *Utility) EncodeEmptyResponse(r *http.Request, w http.ResponseWriter, e
 }
 
 func (ut *Utility) EncodeErrResponse(r *http.Request, w http.ResponseWriter, err error) {
-	err = error_handling.PropagateError(err, 3)
+	err = error_handling.PropagateError(err, 2)
 
 	id, ok := r.Context().Value(model.GetCtxKeyID()).(uuid.UUID)
 	if !ok {
