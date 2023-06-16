@@ -5,7 +5,7 @@ phases:
     runtime-versions:
       golang: 1.20
       python: 3.11
-    commands: 
+    commands:  
       - apt-get install -y jq
       - curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s
       - pip install semgrep
@@ -27,7 +27,9 @@ phases:
       - make semgrep
       # Repository url
       - REPOSITORY_URI=$AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME
-      # Logging into ecr for pushing iamges
+      # Github Commit ID 
+      - COMMIT_HASH=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
+      # Logging into ecr for pushing images
       - aws --region eu-south-1 ecr get-login-password | docker login --username AWS --password-stdin $REPOSITORY_URI
       # execute the shell script to generate the configuration of the project
       - make conf
@@ -43,6 +45,7 @@ phases:
       - echo Build completed on `date`
       # push the docker image to ecr
       - docker push $REPOSITORY_URI:latest
+      - docker push $REPOSITORY_URI:$COMMIT_HASH
       # printing the details of the image to json useful in deploying the project
       - printf '[{"name":"goapp","imageUri":"%s"}]' $REPOSITORY_URI:latest > imagedefinitions.json
 artifacts:
