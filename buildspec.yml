@@ -40,6 +40,8 @@ phases:
       - make build
       # build the docker image
       - docker build -t $REPOSITORY_URI:latest .
+      # image tagging
+      - docker tag $REPOSITORY_URI:latest $REPOSITORY_URI:$COMMIT_HASH
   post_build:
     commands:
       - echo Build completed on `date`
