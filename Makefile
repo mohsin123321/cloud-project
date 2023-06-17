@@ -11,6 +11,8 @@ help:
 	$(printf) "lint" "run the linter golangci-lint"
 	$(printf) "prepare_test" "prepare unit tests folder"
 	$(printf) "test" "prepare tests and run unit tests"
+	$(printf) "test_coverage" "prepare the tests and generates test coverage file"
+	$(printf) "watch_coverage" "useful to monitor the real time code coverage directly within the browser"
 	$(printf) "launch" "build go app and run docker containers that includes both go app and mongodb replica set"
 	$(printf) "shutdown" "Stop and clean up the Docker containers running the Go application and MongoDB replica set"
 	$(printf) "conf" "used to generate the configuration file"
@@ -46,6 +48,12 @@ prepare_test:
 
 test: prepare_test
 	 go test -v ./tests/unit/...
+
+test_coverage: prepare_test
+	go test -v -coverpkg=./controller,./dataservice,./utility -coverprofile=.coverage.out ./tests/unit/...
+
+watch_coverage: test_coverage
+	go tool cover -html=.coverage.out
 
 conf: 
 	./generate_conf.sh
